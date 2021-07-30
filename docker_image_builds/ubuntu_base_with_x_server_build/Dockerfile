@@ -8,6 +8,7 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER app
 WORKDIR /home/app
 
+RUN sudo dpkg --add-architecture i386 
 RUN sudo apt update
 RUN sudo apt install software-properties-common -y
 RUN sudo add-apt-repository multiverse
@@ -23,9 +24,10 @@ RUN sudo apt-get install -y xauth \
 
 #Install nvidia driver
 RUN sudo add-apt-repository ppa:graphics-drivers 
+RUN sudo add-apt-repository ppa:graphics-drivers/ppa
 RUN sudo apt install nvidia-driver-470 -y
-#RUN sudo apt install libnvidia-gl-470:i386 -y
 RUN sudo apt install libnvidia-common-470 -y
+RUN sudo apt install libvulkan1 libvulkan1:i386
 
 RUN sudo ln --symbolic /usr/lib/x86_64-linux-gnu/nvidia/xorg/nvidia_drv.so /usr/lib/xorg/modules/drivers/nvidia_drv.so
 
@@ -43,9 +45,9 @@ ENV DISPLAY=:2
 COPY xinitrc /etc/X11/xinit/xinitrc
 COPY xserverrc /etc/X11/xinit/xserverrc
 
+#install steam
+RUN sudo apt install steam -y
+
 #startup
-#USER root
-#CMD ["/sbin/init"]
-#CMD ["/bin/bash"]
 CMD ["sh", "-c", "sudo startx"]
  
