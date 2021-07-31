@@ -1,10 +1,20 @@
-FROM node:14
+#Credit: https://www.pluralsight.com/guides/using-react.js-with-docker
 
-WORKDIR /usr/src/app
-COPY app/ .
+# pull the base image
+FROM node:alpine
 
-RUN npm install --silent
+# set the working direction
+WORKDIR /app
 
-EXPOSE 3000
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-CMD npm start
+# install app dependencies
+COPY app/package.json ./
+
+#COPY app/package-lock.json ./
+
+RUN npm install
+
+# start app
+CMD ["npm", "start"]
