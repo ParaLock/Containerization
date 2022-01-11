@@ -1,0 +1,11 @@
+1) add USE_LXC_BRIDGE="true" to /etc/default/lxc-net
+2) add 
+
+lxc.network.type = veth
+lxc.network.link = lxcbr0
+lxc.network.flags = up
+lxc.network.hwaddr = 00:16:3e:xx:xx:xx
+
+to /etc/lxc/default.conf
+2) run systemctl restart lxc-net
+3) ip -4 -o a show lxcbr0 bridge_name

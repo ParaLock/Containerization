@@ -1,0 +1,29 @@
+version: "3.2"
+
+services:
+
+  frontend:
+    build: ./frontend
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./frontend/app/public/:/app/public/
+      - ./frontend/app/src/:/app/src/
+    #ports:
+    #  - 3001:3000
+    #  - 35729:35729
+    depends_on: 
+      - backend
+    network_mode: "host"
+
+  backend: 
+    build: ./backend
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      #- ./backend/app/:/app    
+      - ./backend/app/src/:/app/src/
+      #- data/
+   # ports: 
+     # - 8080:8080
+    network_mode: "host"

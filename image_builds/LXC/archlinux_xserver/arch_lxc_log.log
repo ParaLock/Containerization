@@ -1,0 +1,8 @@
+lxc-start archlinux_xserver 20220111005133.444 ERROR    network - network.c:netdev_configure_server_veth:710 - No such file or directory - Failed to attach "vethKDU2rn" to bridge "lxcbr0", bridge interface doesn't exist
+lxc-start archlinux_xserver 20220111005133.453 ERROR    network - network.c:lxc_create_network_priv:3413 - No such file or directory - Failed to create network device
+lxc-start archlinux_xserver 20220111005133.453 ERROR    start - start.c:lxc_spawn:1842 - Failed to create the network
+lxc-start archlinux_xserver 20220111005133.453 ERROR    lxccontainer - lxccontainer.c:wait_on_daemonized_start:867 - Received container state "ABORTING" instead of "RUNNING"
+lxc-start archlinux_xserver 20220111005133.453 ERROR    lxc_start - tools/lxc_start.c:main:306 - The container failed to start
+lxc-start archlinux_xserver 20220111005133.453 ERROR    lxc_start - tools/lxc_start.c:main:309 - To get more details, run the container in foreground mode
+lxc-start archlinux_xserver 20220111005133.453 ERROR    lxc_start - tools/lxc_start.c:main:311 - Additional information can be obtained by setting the --logfile and --logpriority options
+lxc-start archlinux_xserver 20220111005133.453 ERROR    start - start.c:__lxc_start:2073 - Failed to spawn container "archlinux_xserver"
