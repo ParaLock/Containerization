@@ -20,3 +20,6 @@ su $user
 cd /home/$user
 
 
+
+
+

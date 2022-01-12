@@ -6,7 +6,6 @@ sudo lxc-create -n archlinux_xserver -t download -- --dist archlinux --release c
 
 sudo cp setup_users.sh /var/lib/lxc/archlinux_xserver/rootfs/
 sudo cp setup_systems.sh /var/lib/lxc/archlinux_xserver/rootfs/
-sudo cp attach_to_tty.sh /var/lib/lxc/archlinux_xserver/rootfs/
 sudo cp data/xorg.conf /var/lib/lxc/archlinux_xserver/rootfs/etc/X11/xorg.conf
 sudo cp data/Xwrapper.config /var/lib/lxc/archlinux_xserver/rootfs/etc/X11/Xwrapper.config
 sudo cp data/xinitrc /var/lib/lxc/archlinux_xserver/rootfs/etc/X11/xinit/xinitrc
@@ -17,3 +16,6 @@ sudo cp data/logind.conf /var/lib/lxc/archlinux_xserver/rootfs/etc/systemd/login
 
 sudo cp start_xserver.sh /var/lib/lxc/archlinux_xserver/rootfs/
 sudo cp start_session.sh /var/lib/lxc/archlinux_xserver/rootfs/
+
+./start_system.sh
+sudo lxc-attach archlinux_xserver

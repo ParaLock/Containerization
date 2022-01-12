@@ -23,6 +23,7 @@ lxc.mount.entry = /dev/tty2 dev/tty2 none bind,optional,create=file
 lxc.mount.entry = /dev/tty3 dev/tty3 none bind,optional,create=file
 
 lxc.seccomp.profile = /usr/share/lxc/config/common.seccomp
+lxc.apparmor.profile = unconfined
 
 lxc.autodev = 1
 
