@@ -5,3 +5,5 @@ sudo lxc-start -n archlinux_xserver -f ~/Documents/Containerization/image_builds
 sudo lxc-attach -n archlinux_xserver -- chmod +x /setup_systems.sh
 sudo lxc-attach -n archlinux_xserver -- chmod +x /start_xserver.sh
 sudo lxc-attach -n archlinux_xserver -- chmod +x /start_session.sh
+
+sudo lxc-attach -n archlinux_xserver -- su main_user

@@ -1,0 +1,3 @@
+CONTAINER_NAME=archlinux_base
+HOST_UID=1000
+HOST_GID=984
