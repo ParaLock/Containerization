@@ -1,8 +1,6 @@
 
 export $(grep -v '^#' ./data/environment | xargs -d '\n')
 
-#sed -i 's/^projdir .*$/projdir PacMan/' ./config
-
 source ./update_files.sh
 
 sudo lxc-destroy $CONTAINER_NAME -f

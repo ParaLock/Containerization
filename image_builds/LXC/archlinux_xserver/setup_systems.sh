@@ -1,3 +1,4 @@
+export $(grep -v '^#' /environment | xargs -d '\n')
 
 
 sudo mknod -m 666 /dev/tty0 c 4 1

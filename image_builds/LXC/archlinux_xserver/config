@@ -20,7 +20,6 @@ lxc.mount.entry = /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
 lxc.mount.entry = /dev/nvidia-uvm-tools dev/nvidia-uvm-tools none bind,optional,create=file
 
 lxc.mount.entry = /dev/tty1 dev/tty1 none bind,optional,create=file
-lxc.mount.entry = /dev/tty2 dev/tty2 none bind,optional,create=file
 lxc.mount.entry = /dev/tty3 dev/tty3 none bind,optional,create=file
 
 lxc.seccomp.profile = /usr/share/lxc/config/common.seccomp

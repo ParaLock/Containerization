@@ -1,2 +1,3 @@
+export $(grep -v '^#' ./environment | xargs -d '\n')
 export DISPLAY=:0
-startx -- vt2
+startx -- vt$TTY
