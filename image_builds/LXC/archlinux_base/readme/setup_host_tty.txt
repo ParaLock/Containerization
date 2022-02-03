@@ -1,0 +1,7 @@
+In order for a container to take control of a given tty, the host must not already have control of said tty.
+For hosts running systemd, logind.conf may be modified to prevent host allocation of tty's other then 1.
+
+Set the following values in logind.conf to restrict host allocation.
+
+NAutoVTs=1
+ReserveVT=0 

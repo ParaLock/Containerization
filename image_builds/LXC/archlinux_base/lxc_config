@@ -1,0 +1,31 @@
+
+lxc.arch = amd64
+lxc.tty.dir = lxc
+lxc.pty.max = 1024
+lxc.cap.drop = mac_admin mac_override sys_time sys_module sys_rawio
+
+lxc.cgroup.devices.allow = a
+lxc.cgroup2.devices.allow = a
+
+lxc.seccomp.profile = /usr/share/lxc/config/common.seccomp
+lxc.apparmor.profile = unconfined
+
+lxc.autodev = 1
+
+lxc.rootfs.path = dir:/var/lib/lxc/archlinux_base_test/rootfs
+lxc.uts.name = archlinux_base_test
+
+lxc.net.0.type = veth
+lxc.net.0.link = lxcbr0
+lxc.net.0.flags = up
+lxc.net.0.hwaddr = 00:16:3e:xx:xx:xx
+lxc.mount.entry = /sys/fs/fuse/connections sys/fs/fuse/connections none bind,optional 0 0
+lxc.mount.entry = /dev/dri dev/dri none bind,optional,create=dir
+lxc.mount.entry = /dev/tty3 dev/tty3 none bind,optional,create=file
+lxc.mount.entry = /dev/tty1 dev/tty1 none bind,optional,create=file
+lxc.mount.entry = /dev/input dev/input none bind,optional,create=dir
+lxc.mount.entry = /dev/nvidiactl dev/nvidiactl none bind,optional,create=file
+lxc.mount.entry = /dev/nvidia-modeset dev/nvidia-modeset none bind,optional,create=file
+lxc.mount.entry = /dev/nvidia0 dev/nvidia0 none bind,optional,create=file
+lxc.mount.entry = /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
+lxc.mount.entry = /dev/nvidia-uvm-tools dev/nvidia-uvm-tools none bind,optional,create=file

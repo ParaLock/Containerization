@@ -1,4 +1,0 @@
-CONTAINER_NAME=archlinux_xserver
-HOST_UID=1000
-HOST_GID=984
-TTY=3

@@ -1,4 +1,4 @@
-export $(grep -v '^#' /environment | xargs -d '\n')
+export $(grep -v '^#' ./config | xargs -d '\n')
 
 sudo pacman --noconfirm -Syu
 sudo pacman --noconfirm -S base-devel git
@@ -10,18 +10,20 @@ git clone https://aur.archlinux.org/yay.git
 cd yay 
 makepkg -si --needed --noconfirm 
 cd..
-#Configuring XServer
 
-#sudo pacman --noconfirm -S xorg 
-sudo pacman --noconfirm -S xterm 
-yay --noconfirm -S xf86-input-evdev
+if [[ $CONFIG_GPU == 'nvidia' ]]
+then
+    yay --noconfirm -S nvidia-utils-beta
+    yay --noconfirm -S lib32-nvidia-utils-beta
+fi
 
-#export DISPLAY=:2
-
-#Installing NVIDIA Components
-yay --noconfirm -S nvidia-utils-beta 
-yay --noconfirm -S lib32-nvidia-utils-beta
-yay --noconfirm -S openbox 
+if [[ $CONFIG_XSERVER == 'isolated' ]]
+then
+    sudo pacman --noconfirm -S xorg 
+    sudo pacman --noconfirm -S xorg-xinit xterm 
+    yay --noconfirm -S xf86-input-evdev
+    yay --noconfirm -S openbox 
+fi
 
 sudo pacman -S wine-staging winetricks
 
@@ -69,23 +71,27 @@ sudo pacman --noconfirm -S giflib \
                         samba \
                         dosbox
 
-# sudo nvidia-xconfig
-
 yay --noconfirm -S nano
-yay --noconfirm -S systemd
 
 #setup steam
-
-
 sudo pacman --noconfirm -S wget
 yay --noconfirm -S steam-fonts
 yay --noconfirm -S steam
 
 sudo locale-gen
 
-export $(dbus-launch)
+if [[ $CONFIG_SOUND == 'pulse' ]]
+then
+    sudo pacman --noconfirm -S alsa
+    sudo pacman --noconfirm -S pulseaudio
+    sudo pacman --noconfirm -S pulseaudio-alsa
+    sudo pacman --noconfirm -S pavucontrol
+fi
 
-sudo pacman --noconfirm -S alsa
-sudo pacman --noconfirm -S pulseaudio
-sudo pacman --noconfirm -S pulseaudio-alsa
-sudo pacman --noconfirm -S pavucontrol
+sudo usermod -a -G video $CONTAINER_USERNAME
+sudo usermod -a -G users $CONTAINER_USERNAME
+sudo usermod -a -G audio $CONTAINER_USERNAME
+
+cd /home/$CONTAINER_USERNAME/
+# wget "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/7.0rc3-GE-1/Proton-7.0rc3-GE-1.tar.gz"
+# tar -xvf Proton-7.0rc3-GE-1.tar.gz
