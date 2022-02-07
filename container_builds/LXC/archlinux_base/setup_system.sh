@@ -13,8 +13,8 @@ cd..
 
 if [[ $CONFIG_GPU == 'nvidia' ]]
 then
-    yay --noconfirm -S nvidia-utils-beta
-    yay --noconfirm -S lib32-nvidia-utils-beta
+    yay --noconfirm -S nvidia-utils
+    yay --noconfirm -S lib32-nvidia-utils
 fi
 
 if [[ $CONFIG_XSERVER == 'isolated' ]]
