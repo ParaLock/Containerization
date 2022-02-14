@@ -11,8 +11,14 @@ sed -i -e '$alxc.mount.entry = /dev/dri dev/dri none bind,optional,create=dir' .
 
 if [[ $CONFIG_TTY != -1 ]]
 then
-    sed -i -e '$alxc.mount.entry = /dev/tty'$CONFIG_TTY' dev/tty'$CONFIG_TTY' none bind,optional,create=file' ./lxc_config
-    sed -i -e '$alxc.mount.entry = /dev/tty'$(sudo fgconsole)' dev/tty'$(sudo fgconsole)' none bind,optional,create=file' ./lxc_config
+    for i in ${CONFIG_TTY//,/ }
+    do
+        # call your procedure/other scripts here below
+        #sed -i -e '$alxc.mount.entry = /dev/tty'$CONFIG_TTY' dev/tty'$CONFIG_TTY' none bind,optional,create=file' ./lxc_config
+        sed -i -e '$alxc.mount.entry = /dev/tty'$i' dev/tty'$i' none bind,optional,create=file' ./lxc_config
+    done
+    
+    #sed -i -e '$alxc.mount.entry = /dev/tty'$(sudo fgconsole)' dev/tty'$(sudo fgconsole)' none bind,optional,create=file' ./lxc_config
 fi
 
 if [[ $CONFIG_XSERVER == 'isolated' ]]
@@ -41,6 +47,7 @@ fi
 
 sudo lxc-destroy $CONTAINER_NAME -f
 sudo lxc-create -n $CONTAINER_NAME -t download -- --dist archlinux --release current --arch amd64
+#sudo lxc-create -n $CONTAINER_NAME -t local -- --metadata image_builds/ubuntu_gnome_desktop/meta.tar.xz --fstree image_builds/ubuntu_gnome_desktop/rootfs.tar.xz
 
 sudo cp data/xorg.conf /var/lib/lxc/$CONTAINER_NAME/rootfs/etc/X11/xorg.conf
 sudo cp data/Xwrapper.config /var/lib/lxc/$CONTAINER_NAME/rootfs/etc/X11/Xwrapper.config
@@ -49,14 +56,12 @@ sudo cp data/xserverrc /var/lib/lxc/$CONTAINER_NAME/rootfs/etc/X11/xinit/xserver
 sudo cp data/mirrorlist /var/lib/lxc/$CONTAINER_NAME/rootfs/etc/pacman.d/mirrorlist
 sudo cp data/logind.conf /var/lib/lxc/$CONTAINER_NAME/rootfs/etc/systemd/logind.conf
 sudo cp start_graphics.sh /var/lib/lxc/$CONTAINER_NAME/rootfs/
-sudo cp start_session.sh /var/lib/lxc/$CONTAINER_NAME/rootfs/
 sudo cp setup_container.sh /var/lib/lxc/$CONTAINER_NAME/rootfs/
 sudo cp setup_system.sh /var/lib/lxc/$CONTAINER_NAME/rootfs/
 sudo cp setup_user.sh /var/lib/lxc/$CONTAINER_NAME/rootfs/
 sudo cp config /var/lib/lxc/$CONTAINER_NAME/rootfs/
 
 sudo lxc-execute -n $CONTAINER_NAME -f ./lxc_config -- chmod +x ./start_graphics.sh
-sudo lxc-execute -n $CONTAINER_NAME -f ./lxc_config -- chmod +x ./start_session.sh
 sudo lxc-execute -n $CONTAINER_NAME -f ./lxc_config -- chmod +x ./setup_container.sh
 sudo lxc-execute -n $CONTAINER_NAME -f ./lxc_config -- chmod +x ./setup_user.sh
 sudo lxc-execute -n $CONTAINER_NAME -f ./lxc_config -- chmod +x ./setup_system.sh

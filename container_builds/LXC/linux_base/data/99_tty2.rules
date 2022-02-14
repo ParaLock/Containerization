@@ -1,0 +1,2 @@
+KERNEL=="tty2", SYMLINK+="tty1"
+

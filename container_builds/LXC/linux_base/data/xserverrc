@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export $(grep -v '^#' ./environment | xargs -d '\n')
+
+#exec /usr/bin/Xorg -nolisten tcp vt$CONFIG_TTY "$@" 
+exec /usr/bin/Xorg -nolisten tcp "$@" 

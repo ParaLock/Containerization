@@ -1,5 +1,6 @@
 image:
   distribution: archlinux
+  variant: desktop-gnome
 
 source:
   downloader: archlinux-http
