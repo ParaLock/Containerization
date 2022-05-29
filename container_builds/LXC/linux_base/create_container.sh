@@ -59,12 +59,14 @@ sudo cp start_graphics.sh /var/lib/lxc/$CONTAINER_NAME/rootfs/
 sudo cp setup_container.sh /var/lib/lxc/$CONTAINER_NAME/rootfs/
 sudo cp setup_system.sh /var/lib/lxc/$CONTAINER_NAME/rootfs/
 sudo cp setup_user.sh /var/lib/lxc/$CONTAINER_NAME/rootfs/
+sudo cp start_session.sh /var/lib/lxc/$CONTAINER_NAME/rootfs/
 sudo cp config /var/lib/lxc/$CONTAINER_NAME/rootfs/
 
 sudo lxc-execute -n $CONTAINER_NAME -f ./lxc_config -- chmod +x ./start_graphics.sh
 sudo lxc-execute -n $CONTAINER_NAME -f ./lxc_config -- chmod +x ./setup_container.sh
 sudo lxc-execute -n $CONTAINER_NAME -f ./lxc_config -- chmod +x ./setup_user.sh
 sudo lxc-execute -n $CONTAINER_NAME -f ./lxc_config -- chmod +x ./setup_system.sh
+sudo lxc-execute -n $CONTAINER_NAME -f ./lxc_config -- chmod +x ./start_session.sh
 
 sudo lxc-start -n $CONTAINER_NAME -f ./lxc_config -d
 sudo lxc-attach -n $CONTAINER_NAME

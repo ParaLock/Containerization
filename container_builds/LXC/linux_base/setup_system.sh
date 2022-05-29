@@ -80,17 +80,15 @@ yay --noconfirm -S steam
 
 sudo locale-gen
 
-if [[ $CONFIG_SOUND == 'pulse' ]]
+if [[ $CONFIG_SOUND == 'pipewire' ]]
 then
+    sudo pacman --noconfirm -S rtkit
     sudo pacman --noconfirm -S alsa
-    sudo pacman --noconfirm -S pulseaudio
-    sudo pacman --noconfirm -S pulseaudio-alsa
+    sudo pacman --noconfirm -S alsa-firmware
+    sudo pacman --noconfirm -S pipewire
+    sudo pacman --noconfirm -S pipewire-pulse
     sudo pacman --noconfirm -S pavucontrol
 fi
-
-sudo usermod -a -G video $CONTAINER_USERNAME
-sudo usermod -a -G users $CONTAINER_USERNAME
-sudo usermod -a -G audio $CONTAINER_USERNAME
 
 cd /home/$CONTAINER_USERNAME/
 # wget "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/7.0rc3-GE-1/Proton-7.0rc3-GE-1.tar.gz"

@@ -1,9 +1,8 @@
 #lxc.include = /usr/share/lxc/config/nesting.conf
 
 lxc.arch = amd64
-#lxc.tty.dir = lxc
+lxc.tty.dir = lxc
 lxc.pty.max = 1024
-lxc.console.path=/dev/tty2
 lxc.cap.drop = mac_admin mac_override sys_time sys_module sys_rawio
 
 lxc.mount.auto = cgroup:mixed proc:mixed sys:mixed
