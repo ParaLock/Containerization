@@ -1,8 +1,0 @@
-[Unit]
-Description=Random init stuff
-
-[Service]
-ExecStart=/misc-init.sh
-
-[Install]
-WantedBy=multi-user.target

@@ -55,7 +55,6 @@ def get_device_params(args):
 		"--volume=/dev/nvidia0:/dev/nvidia0",
 		"--volume=/dev/nvidia-uvm:/dev/nvidia-uvm",
 		"--volume=/dev/nvidia-uvm-tools:/dev/nvidia-uvm-tools",
-		"--volume=/dev/nvidia-caps:/dev/nvidia-caps",
 		"--volume=/sys/fs/fuse/connections/:/sys/fs/fuse/connections",
 		"--volume=/dev/shm/:/dev/shm/"
 	]
