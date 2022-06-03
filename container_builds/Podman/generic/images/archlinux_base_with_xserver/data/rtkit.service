@@ -1,0 +1,11 @@
+[Unit]
+Description=RTKIT service
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/usr/lib/rtkit-daemon --user-name=root
+
+[Install]
+WantedBy=multi-user.target

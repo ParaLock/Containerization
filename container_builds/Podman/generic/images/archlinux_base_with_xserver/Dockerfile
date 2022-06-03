@@ -18,6 +18,8 @@ COPY data/group /etc/
 COPY data/passwd /etc/
 COPY data/shadow /etc/
 
+COPY data/logind.conf /etc/systemd/logind.conf
+
 RUN pacman-key --init
 RUN pacman-key --populate archlinux
 
@@ -25,12 +27,21 @@ RUN pacman --noconfirm -Sy archlinux-keyring && pacman --noconfirm -Su
 RUN pacman --noconfirm -S archlinux-keyring
 RUN pacman --noconfirm -S sudo
 
+RUN echo "$user - nice - 20" >> /etc/security/limits.conf
+# RUN echo "rtkit - nice - 20" >> /etc/security/limits.conf
+# RUN echo "realtime - nice - 20" >> /etc/security/limits.conf
+
 ARG user=$HOST_USERNAME
 RUN echo "root:root" | chpasswd
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN echo "$HOST_USERNAME ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers
 USER $user
 WORKDIR /home/$user
+# RUN sudo usermod -aG audio $user
+
+# Start services
+COPY data/rtkit.service /etc/systemd/system/rtkit.service
+RUN sudo systemctl enable rtkit
 
 # Update base system
 RUN sudo pacman --noconfirm -Syu
@@ -59,8 +70,8 @@ COPY data/xserverrc /etc/X11/xinit/xserverrc
 
 #Installing NVIDIA Components
 RUN yay --noconfirm -S nvidia-utils && \
-    yay --noconfirm -S lib32-nvidia-utils && \
-    yay --noconfirm -S ly
+    yay --noconfirm -S lib32-nvidia-utils
+
 
 RUN sudo pacman --noconfirm -S xorg && \
     sudo pacman --noconfirm -S xorg-xinit xterm && \
@@ -68,7 +79,7 @@ RUN sudo pacman --noconfirm -S xorg && \
     yay --noconfirm -S openbox && \
     sudo pacman --noconfirm -S xorg-fonts-misc && \
     sudo pacman --noconfirm -S ttf-dejavu && \
-    sudo pacman --noconfirm -S rtkit
+    sudo pacman --noconfirm -S nano htop
     
 RUN sudo pacman --noconfirm -S wine-staging winetricks
 
@@ -116,31 +127,17 @@ RUN sudo pacman --noconfirm -S giflib \
                         samba \
                         dosbox
 
+RUN sudo pacman --noconfirm -S wireplumber
 RUN sudo pacman --noconfirm -S rtkit && \
     sudo pacman --noconfirm -S alsa && \
-    sudo pacman --noconfirm -S alsa-firmware && \
-    sudo pacman --noconfirm -S pipewire && \
-    sudo pacman --noconfirm -S wireplumber && \
-    sudo pacman --noconfirm -S pipewire-pulse
+    sudo pacman --noconfirm -S alsa-firmware && \ 
+    sudo pacman --noconfirm -S alsa-utils && \
+    sudo pacman --noconfirm -S pipewire-alsa
 
 RUN yay --noconfirm -S nano
 
-# RUN sudo mkdir -p /usr/lib/locale
-# RUN sudo mkdir -p /usr/bin/
-# RUN sudo mkdir -p /usr/share/X11/locale
-# RUN sudo mkdir -p /usr/share/locale
-
-# COPY data/language/usr/lib/locale/locale-archive /usr/lib/locale/locale-archive
-# COPY data/language/usr/lib32/locale/locale-archive /usr/lib32/locale/locale-archive
-# COPY data/language/usr/bin/locale /usr/bin/
-# COPY data/language/usr/share/X11/locale/* /usr/share/X11/locale/  
-# COPY data/language/usr/share/locale/* /usr/share/locale/  
-
-# RUN sudo locale-gen
-
 #setup steam
 RUN sudo pacman --noconfirm -S wget
-#RUN yay --noconfirm -S steam-fonts
 RUN yay --noconfirm -S steam
 
 USER root
