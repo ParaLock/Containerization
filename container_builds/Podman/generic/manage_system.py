@@ -127,11 +127,12 @@ def get_user_params(args):
 
 def generate_xserver_configs(args):
 
-    update_file(
-        "images/{0}/data/xserverrc".format(args.image_name),
-        r"vt\d+",
-        "vt{0}".format(args.tty)
-    )
+    if args.tty:
+        update_file(
+            "images/{0}/data/xserverrc".format(args.image_name),
+            r"vt\d+",
+            "vt{0}".format(args.tty)
+        )
 
 
 def copy_host_credentials(args):
@@ -184,7 +185,7 @@ def create_container(args):
     ]
     cmd_args.extend([
         "--name {0}".format(args.container_name),
-        "-it",
+        # "-it",
         args.image_name
     ])
 
@@ -221,7 +222,7 @@ def rebuild_container(args):
 def start_container(args):
 
     cmd_args = [
-        # "--attach {0}".format(args.container_name),
+        "--attach {0}".format(args.container_name),
         # "--interactive"
     ]
 
@@ -266,8 +267,3 @@ def main():
 
 
 main()
-
-
-# for subdir, dirs, files in os.walk("/dev/input"):
-# 	for file in files:
-# 		print(os.path.join(subdir, file))

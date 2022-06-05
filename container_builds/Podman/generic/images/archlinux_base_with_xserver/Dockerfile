@@ -18,7 +18,11 @@ COPY data/group /etc/
 COPY data/passwd /etc/
 COPY data/shadow /etc/
 
-COPY data/logind.conf /etc/systemd/logind.conf
+COPY data/env-setup.sh /
+COPY data/disable-logind.sh /
+
+RUN chmod 777 /env-setup.sh
+RUN chmod 777 /disable-logind.sh
 
 RUN pacman-key --init
 RUN pacman-key --populate archlinux
@@ -37,19 +41,15 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN echo "$HOST_USERNAME ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers
 USER $user
 WORKDIR /home/$user
-# RUN sudo usermod -aG audio $user
+RUN sudo usermod -aG audio $user
 
-# Start services
-COPY data/rtkit.service /etc/systemd/system/rtkit.service
-RUN sudo systemctl enable rtkit
+# Disable logind
+RUN /disable-logind.sh
 
 # Update base system
 RUN sudo pacman --noconfirm -Syu
 RUN sudo pacman --noconfirm -S base-devel git
 RUN sudo pacman --noconfirm -Syu archlinux-keyring
-
-COPY data/.profile /home/$user/.profile
-RUN sudo chmod +x /home/$user/.profile
 
 #Installing YAY
 RUN git clone https://aur.archlinux.org/yay.git \
@@ -132,7 +132,10 @@ RUN sudo pacman --noconfirm -S rtkit && \
     sudo pacman --noconfirm -S alsa && \
     sudo pacman --noconfirm -S alsa-firmware && \ 
     sudo pacman --noconfirm -S alsa-utils && \
-    sudo pacman --noconfirm -S pipewire-alsa
+    sudo pacman --noconfirm -S pipewire-alsa && \
+    yay --noconfirm -S ly
+
+RUN sudo systemctl enable ly
 
 RUN yay --noconfirm -S nano
 
@@ -140,5 +143,8 @@ RUN yay --noconfirm -S nano
 RUN sudo pacman --noconfirm -S wget
 RUN yay --noconfirm -S steam
 
+COPY data/ly /usr/bin/
+
 USER root
-ENTRYPOINT ["/sbin/init"]
+#ENTRYPOINT "/sbin/init"
+CMD ["/usr/sbin/init"]
