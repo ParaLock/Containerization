@@ -56,6 +56,7 @@ def get_hardware_params(args):
     devices = [
         "/dev/input",
         "/dev/dri",
+        "/dev/snd",
         "/dev/nvidiactl",
         "/dev/nvidia-modeset",
         "/dev/nvidia0",
@@ -185,7 +186,7 @@ def create_container(args):
     ]
     cmd_args.extend([
         "--name {0}".format(args.container_name),
-        # "-it",
+        "-it",
         args.image_name
     ])
 

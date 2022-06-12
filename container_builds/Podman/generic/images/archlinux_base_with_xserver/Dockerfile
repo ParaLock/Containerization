@@ -20,9 +20,13 @@ COPY data/shadow /etc/
 
 COPY data/env-setup.sh /
 COPY data/disable-logind.sh /
+COPY data/attach-host-xserver.sh /
+COPY data/start-xserver.sh /
 
 RUN chmod 777 /env-setup.sh
 RUN chmod 777 /disable-logind.sh
+RUN chmod 777 /attach-host-xserver.sh
+RUN chmod 777 /start-xserver.sh
 
 RUN pacman-key --init
 RUN pacman-key --populate archlinux
@@ -38,7 +42,7 @@ RUN echo "$user - nice - 20" >> /etc/security/limits.conf
 ARG user=$HOST_USERNAME
 RUN echo "root:root" | chpasswd
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-RUN echo "$HOST_USERNAME ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers
+RUN echo "$HOST_USERNAME ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 USER $user
 WORKDIR /home/$user
 RUN sudo usermod -aG audio $user
@@ -146,5 +150,4 @@ RUN yay --noconfirm -S steam
 COPY data/ly /usr/bin/
 
 USER root
-#ENTRYPOINT "/sbin/init"
 CMD ["/usr/sbin/init"]
