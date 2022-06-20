@@ -69,6 +69,7 @@ def get_hardware_params(args):
     options = []
 
     options.append("--volume=/run/user/1000/pipewire-0:/mnt/pipewire-0")
+    options.append("--device=/dev/fuse")
 
     if not args.rebuild:
         for device in devices:
